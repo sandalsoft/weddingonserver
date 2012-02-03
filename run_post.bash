@@ -4,4 +4,6 @@
 
 
 ## getGuestList
-curl -d "uuid=203F49E8-B247-5311-A2EE-705FA892DA2C" http://wedding.sandalsoft.com/weddingonserver/getGuestList.php
+curl -d "uuid=a26995db8cd00153e1c3c7055108942a1171b08d" http://wedding.sandalsoft.com/weddingonserver/getGuestList.php
+
+## getPhotoGallrey
