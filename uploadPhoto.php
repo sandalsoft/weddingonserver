@@ -6,43 +6,42 @@
  */
 
 include_once "AuthUUID.php";
-
+var_dump($_REQUEST);
 $uuid = $_REQUEST["uuid"];
 $doc = AuthUUID::validate($uuid);
 if (!$doc) {
     header('HTTP/1.0 401 Unauthorized');
 } else {
     
-     # determine which album or if albums will be used at all
-    # accept file upload and place in album
    $images_dir =  "photos/images/album/";
-   $uploaded_photo_filename = $uuid . "-" . $_FILES["file"]["name"];
    $thumbs_dir = "photos/thumbs/album/";
-   if ((($_FILES["file"]["type"] == "image/gif")
-|| ($_FILES["file"]["type"] == "image/jpeg")
-|| ($_FILES["file"]["type"] == "image/pjpeg"))
-&& ($_FILES["file"]["size"] < 200000))
-  {
-  if ($_FILES["file"]["error"] > 0)
-    {
-    echo "Return Code: " . $_FILES["file"]["error"] . "<br />";
-    }
-  else
-    {
+   
+   $uploaded_file = $_FILES["file"]["name"];
+   $temp_filename = $_FILES["file"]["tmp_name"];
+   $permanaent_filename = md5_file($temp_filename) . ".PNG";
   
-    if (file_exists($images_dir . $_FILES["file"]["name"]))
-      {
-      echo $_FILES["file"]["name"] . " already exists. ";
+
+   
+//   if ($_FILES["file"]["size"] < 200000)
+//  {
+  if ($_FILES["file"]["error"] > 0)  {
+    echo "ERROR: " . $_FILES["file"]["error"];
+    }
+  else  {
+    if (file_exists($images_dir . $permanaent_filename))  {
+      echo $permanaent_filename . " already exists. ";
+      var_dump($permanaent_filename . "already exists");
       }
-    else
-      {
-      move_uploaded_file($_FILES["file"]["tmp_name"],
-      $images_dir . $uuid . "-" . $_FILES["file"]["name"]);
-      #echo "Stored in: " . $images_dir . $_FILES["file"]["name"];
+    else  {
+      # File doesn't exit, move tmp file to permanent images dir 
+      move_uploaded_file($temp_filename,
+            $images_dir . $permanaent_filename);
+      #echo "Stored in: " . $images_dir . $permanaent_filename;
       
       # create thumbnail
       $wwwroot = "/var/www/weddingonserver/";
-      make_thumb($wwwroot . $images_dir . $uploaded_photo_filename, $wwwroot . $thumbs_dir . $uploaded_photo_filename, 75);
+      make_thumb($wwwroot . $images_dir . $permanaent_filename,         
+                    $wwwroot . $thumbs_dir . $permanaent_filename, 75);
      
       
       # open metadata xml file
@@ -51,7 +50,7 @@ if (!$doc) {
       $xml = simplexml_load_file($file);
 
       $image = $xml->addChild('image');
-      $image->addChild('name', $uuid . "-" . $_FILES["file"]["name"]);
+      $image->addChild('name', $permanaent_filename);
       $image->addChild('text', $_REQUEST['image_description']);
       
       echo $xml->asXML($file);
@@ -67,11 +66,11 @@ if (!$doc) {
       
       }
     }
-  }
-else
-  {
-  echo "Invalid file";
-  }
+//  }
+//else
+//  {
+//  echo "Invalid file: " . $_FILES["file"]["name"];
+//  }
   
 }
 

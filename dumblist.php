@@ -1,14 +1,11 @@
 <?php
 
-include_once "AuthUUID.php";
-	
-    $uuid = $_REQUEST["uuid"];
-    $doc = AuthUUID::validate($uuid);
-    if (!$doc) {
-            header('HTTP/1.0 401 Unauthorized');
-    }
-    else {
-        $m = new Mongo();
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+$m = new Mongo();
         $collection = $m->weddingonsand->Persons;
         
         //echo "AUTH OK";
@@ -19,7 +16,4 @@ include_once "AuthUUID.php";
          
         echo json_encode( $value );
 }
-      
- 
-    }
 ?>
