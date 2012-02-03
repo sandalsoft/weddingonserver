@@ -16,7 +16,6 @@ if (!$doc) {
    $images_dir =  "photos/images/album/";
    $thumbs_dir = "photos/thumbs/album/";
    
-   $uploaded_file = $_FILES["file"]["name"];
    $temp_filename = $_FILES["file"]["tmp_name"];
    $permanaent_filename = md5_file($temp_filename) . ".PNG";
   
