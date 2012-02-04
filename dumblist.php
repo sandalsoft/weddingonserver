@@ -11,10 +11,10 @@
     //echo "AUTH OK";
     $cursor = $collection->find();
     header('Content-Type: application/json');
-    echo "{";
+    echo "{\"Persons\":[";
      foreach ($cursor as $id => $value) {
-
-        echo "\"Person\": {";
+        echo "{";
+       // echo "\"Person\": {";
         echo "\"id\":" . "\""   . $id . "\",";
         echo "\"address\":"     .  "\"" . $value['address'] . "\",";
         echo "\"app_auth_code\":"     .  "\"" . $value['app_auth_code'] . "\",";
@@ -31,8 +31,10 @@
         echo "\"twitter_handle\":"   .  "\"" . $value['twitter_handle'] . "\",";
         echo "\"uuid\":"        .  "\"" . $value['uuid'] . "\",";
         echo "\"wedding_role\":"   .  "\"" . $value['wedding_role'] . "\",";
-        echo "},";
-        
+        echo "}";
+        if ($cursor->hasNext()) {
+            echo  ",";
+        }
     }
-    echo "}";
+    echo "]}";
 ?>
