@@ -8,7 +8,7 @@ include_once "AuthUUID.php";
             header('HTTP/1.0 401 Unauthorized');
     }
     else {
-        $m = new Mongo("mongodb://mongohqdba:ilikebigtits@staff.mongohq.com:10004/weddingonsand");
+         $m = Db.getDb();
         $collection = $m->weddingonsand->Persons;
 
         //echo "AUTH OK";
