@@ -8,7 +8,7 @@ include_once "AuthUUID.php";
             header('HTTP/1.0 401 Unauthorized');
     }
     else {
-         $m = Db.getDb();
+        $m = Db::getDb();
         $collection = $m->weddingonsand->Persons;
 
         //echo "AUTH OK";
