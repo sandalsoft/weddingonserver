@@ -1,6 +1,6 @@
 <?php
 
-echo "weddingonserver";
+echo "weddingonserver - update";
 ?>
 
 
