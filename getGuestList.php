@@ -29,7 +29,7 @@ include_once "AuthUUID.php";
             echo "\"last_name\":"   .  "\"" . $value['last_name'] . "\",";
             echo "\"latitude\":"   .  $value['latitude'] . ",";
             echo "\"longitude\":"   .   $value['longitude'] . ",";
-            echo "\"phone_number\":"   .  "\"" . $value['phone_numer'] . "\",";
+            echo "\"phone_number\":"   .  "\"" . $value['phone_number'] . "\",";
             echo "\"twitter_handle\":"   .  "\"" . $value['twitter_handle'] . "\",";
             echo "\"uuid\":"        .  "\"" . $value['uuid'] . "\",";
             echo "\"wedding_role\":"   .  "\"" . $value['wedding_role'] . "\",";
