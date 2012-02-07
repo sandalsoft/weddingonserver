@@ -8,7 +8,7 @@ include_once "AuthUUID.php";
             header('HTTP/1.0 401 Unauthorized');
     }
     else {
-        $m = new Mongo("mongodb://mongohqdba:ilikebigtits@staff.mongohq.com:10004/weddingonsand");
+        $m = Db::getDb();
         $collection = $m->weddingonsand->Persons;
 
         //echo "AUTH OK";
@@ -29,7 +29,7 @@ include_once "AuthUUID.php";
             echo "\"last_name\":"   .  "\"" . $value['last_name'] . "\",";
             echo "\"latitude\":"   .  $value['latitude'] . ",";
             echo "\"longitude\":"   .   $value['longitude'] . ",";
-            echo "\"phone_number\":"   .  "\"" . $value['phone_numer'] . "\",";
+            echo "\"phone_number\":"   .  "\"" . $value['phone_number'] . "\",";
             echo "\"twitter_handle\":"   .  "\"" . $value['twitter_handle'] . "\",";
             echo "\"uuid\":"        .  "\"" . $value['uuid'] . "\",";
             echo "\"wedding_role\":"   .  "\"" . $value['wedding_role'] . "\",";
