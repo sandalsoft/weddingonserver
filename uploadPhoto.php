@@ -54,8 +54,9 @@ if (!$doc) {
       $image = $xml->addChild('image');
       $image->addChild('name', $permanaent_filename);
       $image->addChild('text', $_REQUEST['image_description']);
+      $image->addChild('uuid', $_REQUEST['uuid']);
       
-      //echo $xml->asXML($file);
+      echo $xml->asXML($file);
       
       }
     }
