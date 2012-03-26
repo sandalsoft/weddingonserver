@@ -11,35 +11,42 @@ include_once "Db.php";
  }
   $m = Db::getDb();
   $collection = $m->weddingonsand->SongRequests;
+
+ /*
+ *   
+  # check how many song requests a user has.  
+  $user_cursor = $collection->find(array('uuid'=>$uuid));
+  #echo "$uuid has " . $user_cursor->count() . "requests";
+    if ($user_cursor->count() > 20) {
+      # return status message and don't insert record
+      $status = array("status" => "too many requests");
+  }
+ * 
+ */
   
- # User already requested this song
-  $criteria = array(
+ #Song request profile
+  $song_request = array(
       'uuid'=>$uuid,
       'trackId'=>$trackId,
   );
   
+  # create output status 
   $status = array();
-  $cursor = $collection->find($criteria);
+  
+  # if request for specific song from specific user returns a record
+  $cursor = $collection->find($song_request);
   if ($cursor->count() > 0) {
+      # return status message and don't insert record
       $status = array("status" => "duplicate");
-      
   }
       
   else {    
-      $collection->insert($criteria);
+      #song request doesn't exist, insert it and return ok status
+      $collection->insert($song_request);
       $status = array("status" => "ok");
   }
   
   print_r(json_encode($status));
   
-//  $return = array();
-//    $i=0;
-//    while( $cursor->hasNext() )
-//    {
-//
-//        $return[$i] = $cursor->getNext();
-//        $return[$i++]['_id'] = $cursor->key;
-//    }
-//    print_r(json_encode($return));
 ?>
 
