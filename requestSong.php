@@ -5,8 +5,7 @@ include_once "Db.php";
  $uuid = $_POST["uuid"];
  $trackId = intval($_POST['trackId']); 
 // var_dump($uuid);
-
- if (!AuthUUID::validate_generic($uuid)){
+ if (!AuthUUID::validate($uuid)){
        header('HTTP/1.0 401 Unauthorized');
        die;
  }
