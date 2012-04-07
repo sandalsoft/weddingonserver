@@ -14,13 +14,13 @@ $collection = $m->weddingonsand->Persons;
 //echo "AUTH OK";
 $cursor = $collection->find();
 
-$return = array();
+$response = array();
 $i = 0;
 while ($cursor->hasNext()) {
 
-    $return[$i] = $cursor->getNext();
-    $return[$i++]['_id'] = $cursor->key;
+    $response[$i] = $cursor->getNext();
+    $response[$i++]['_id'] = $cursor->key;
 }
-print_r(json_encode($return));
+print_r(json_encode($response));
 
 ?>
