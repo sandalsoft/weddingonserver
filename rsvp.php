@@ -36,6 +36,7 @@ define('POSTMARKAPP_MAIL_FROM_NAME', 'Julie and Eric');
 Mail_Postmark::compose()
     ->addTo($_POST['email'], $name)
     ->subject('RSVP Confirmation')
+    ->tag("rsvp")
     ->messageHtml($html_response)
     ->send();
 
