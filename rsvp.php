@@ -25,7 +25,8 @@ $rsvps->insert($rsvp);
 $name = $_POST['first_name'] . $_POST['last_name'];
 $html_response = file_get_contents("rvsp_response.html");
 
-
+$rsvp_notify = "beach@julieandericswedding.com";
+ 
 // Create a "Sender signature", then use the "From Email" here.
 // POSTMARKAPP_MAIL_FROM_NAME is optional, and can be overridden
 // with Mail_Postmark::fromName()
@@ -42,6 +43,38 @@ Mail_Postmark::compose()
 
 
 
+
+$rsvp_notify_message = "
+
+<html>
+	<head>
+		<title>HTML Online Editor Sample</title>
+	</head>
+	<body>
+		<h1>
+			New RSVP</h1>
+		<ul>
+			<li>
+				" . $_POST['first_name'] . " " . $_POST['last_name'] . "</li>
+			<li>
+				" . $_POST['email']  . "</li>
+			<li>
+				" . $_POST['guest_first_name'] .  " " . $_POST['guest_last_name'] . "</li>
+			<li>
+				" . $_POST['note'] . "</li>
+		</ul></body>
+</html>
+";
+        
+        
+Mail_Postmark::compose()
+    ->addTo($rsvp_notify)
+    ->subject('New RSVP')
+    ->tag("rsvp_notification")
+    ->messageHtml($rsvp_notify_message)
+    ->send();
+
+
 echo '<HEAD> <meta HTTP-EQUIV="REFRESH" content="2; url=http://www.julieandericswedding.com/registry.html"></HEAD>';
 echo '<BODY><h1>Thanks for RSVPing!  We got your info and will be in touch soon...';
 
@@ -54,6 +87,6 @@ echo '<BODY><h1>Thanks for RSVPing!  We got your info and will be in touch soon.
 //}
 
 
-
 ?>
+
 
