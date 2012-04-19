@@ -6,12 +6,18 @@ $upload_file = $_FILES["imageData"]["tmp_name"];
 $uuid = $_POST["uuid"];
 $comments = $_POST["description"];
 
+$image_filename = basename($upload_file);
 $images_dir = "/var/www/weddingonserver/images/";
-$image_file = $images_dir . basename($upload_file);
+$image_file = $images_dir . $image_filename;
+
+$www_images_dir = "/images/";
+$www_image_file = $www_images_dir . $image_filename;
 
 move_uploaded_file($upload_file, $image_file);
-$thumb_file = $image_file . ".thumb";
 
+$thumb_filename = $image_filename . ".thumb";
+$thumb_file = $image_file . ".thumb";
+$www_thumb_file = $www_images_dir . $thumb_filename;
 
 $m = new Mongo("mongodb://mongouser:ilikebigtits@10.183.5.47:29317/weddingonsand");
 $db = $m->weddingonsand;
@@ -41,7 +47,8 @@ $gridFS = $db->getGridFS();
 
 
 $storedfile = $gridFS->storeFile($image_file, 
-        array("metadata" => array("thumbnail" => $thumb_file, "thumbnail_md5" => $thumb_md5, "upload_name" => $uploaders_name, "upload_uuid" => $uuid, "comments" => $comments)));
+        array("metadata" => array("file_url" => $www_image_file,  "thumb_url" => $www_thumb_file, "thumbnail_md5" => $thumb_md5, "upload_name" => $uploaders_name, "upload_uuid" => $uuid, "comments" => $comments)));
+
 
 
 function get_uploaders_name($uuid, $collection) {
