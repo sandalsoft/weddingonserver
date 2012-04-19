@@ -12,10 +12,9 @@ $images = $gridFS->find();
 
 // Stream image to browser
 //header('Content-type: image/jpeg');
-header('Content-type: application/json');
-foreach ($images as $image) {
-    echo json_encode($image->getBytes());
+header('Content-type: image/jpeg');
+foreach ($images["thumbnail"] as $thumb) {
+    echo ($thumb->getBytes());
 }
-
 
 ?>
