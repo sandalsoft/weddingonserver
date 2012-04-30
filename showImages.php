@@ -1,6 +1,7 @@
 <?php
 
 
+
 $m = new Mongo("mongodb://mongouser:ilikebigtits@10.183.5.47:29317/weddingonsand");
 $db = $m->weddingonsand;    
 
@@ -18,6 +19,7 @@ foreach ($cursor as $filedata) {
       $response['images'][] = $filedata;
 }
 
+header('Content-type: application/json');
 print_r(json_encode($response));
 
 //// Stream image to browser

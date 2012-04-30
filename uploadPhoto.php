@@ -19,8 +19,8 @@ if (!$doc) {
    // This seems unnecessary?
    //$uploaded_file = $_FILES["file"]["name"];
    
-   $temp_filename = $_FILES["file"]["tmp_name"];
-   $permanaent_filename = md5_file($temp_filename) . ".PNG";
+   $image_file = $_FILES["file"]["tmp_name"];
+   $permanaent_filename = md5_file($image_file) . ".PNG";
   
 
    
@@ -36,7 +36,7 @@ if (!$doc) {
       }
     else  {
       # File doesn't exit, move tmp file to permanent images dir 
-      move_uploaded_file($temp_filename,
+      move_uploaded_file($image_file,
             $images_dir . $permanaent_filename);
       #echo "Stored in: " . $images_dir . $permanaent_filename;
       
