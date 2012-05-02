@@ -21,6 +21,7 @@ elseif ($photo_type == "image") {
 else {
     header('Content-type: application/json');
     $photos_cursor = $photos_collection->find();
+    $photos_cursor->sort(array('upload_timestamp' => -1));
     $response['status']['status'] = "ok";
     $response['photos'] = NULL;
     foreach ($photos_cursor as $photo) {

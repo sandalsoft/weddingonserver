@@ -27,19 +27,19 @@ $uploaders_name = get_uploaders_name($uuid, $personCollection);
 
 // Resize and Create thumbnail
 $thumbnail_width = 128;
-
-resize_image($image_file, $thumb_file, $thumbnail_width);
-$thumb_imagesize = getimagesize($thumb_file);
-$thumb_filesize = filesize($thumb_file);
+//resize_image($image_file, $thumb_file, $thumbnail_width);
+//$thumb_imagesize = getimagesize($thumb_file);
+//$thumb_filesize = filesize($thumb_file);
 
 // Resize and save image
 $image_width = 1024;
-$image = new Imagick($image_file); 
-$d = $image->getImageGeometry(); 
-$w = $d['width'];
-if ($w > 1024) {
-    resize_image($image_file, $image_file, $image_width);
-}
+//$image = new Imagick($image_file); 
+//$d = $image->getImageGeometry(); 
+//$w = $d['width'];
+//if ($w > 1024) {
+//    resize_image($image_file, $image_file, $image_width);
+//}
+
 $image_imagesize = getimagesize($image_file);
 $image_filesize = filesize($image_file);
 //$upload_time = date("m-d-Y g:i a");
@@ -47,16 +47,8 @@ $now = new Date('en');
 $now->setGMTOffset(-6);
 $upload_time = $now->shortDateHuman() . " " . $now->shortTimeHuman();
 $upload_timestamp = time();
-//$thumb_md5 = md5_file($thumb_file); 
+$image_md5 = md5_file($image_file); 
 
-// GridFS
-//$gridFS = $db->getGridFS();
-
-
-
-# using GridFS
-//$storedfile = $gridFS->storeFile($image_file, 
-//        array("metadata" => array("file_url" => $www_image_file,  "thumb_url" => $www_thumb_file, "thumbnail_md5" => $thumb_md5, "upload_name" => $uploaders_name, "upload_uuid" => $uuid, "comments" => $comments)));
 
 # Embedding image into documents
 $image_doc = array(
@@ -74,6 +66,7 @@ $image_doc = array(
     "image_height" => $image_imagesize[1],
     "image_filetype" => $image_imagesize[2],
     "image_filesize" => $image_filesize,
+    "image_md5" => $image_md5,
     "image" => new MongoBinData(file_get_contents($image_file)),
     );
 $photos_collection->save($image_doc);
@@ -108,8 +101,6 @@ function RelativeTime($timestamp){
 
 function resize_image($src,$dest,$desired_width)
 {
-    
-//       
 	/* read the source image */
 	$source_image = imagecreatefromjpeg($src);
 	$width = imagesx($source_image);
