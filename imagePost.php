@@ -26,19 +26,20 @@ $personCollection = $m->weddingonsand->Persons;
 $uploaders_name = get_uploaders_name($uuid, $personCollection);
 
 // Resize and Create thumbnail
-$thumbnail_width = 128;
-//resize_image($image_file, $thumb_file, $thumbnail_width);
-//$thumb_imagesize = getimagesize($thumb_file);
-//$thumb_filesize = filesize($thumb_file);
+$thumb_width = 75;
+resize_image($image_file, $thumb_file, $thumb_width);
+$thumb_imagesize = getimagesize($thumb_file);
+$thumb_filesize = filesize($thumb_file);
+
 
 // Resize and save image
 $image_width = 1024;
-//$image = new Imagick($image_file); 
-//$d = $image->getImageGeometry(); 
-//$w = $d['width'];
-//if ($w > 1024) {
-//    resize_image($image_file, $image_file, $image_width);
-//}
+$image = new Imagick($image_file); 
+$d = $image->getImageGeometry(); 
+$w = $d['width'];
+if ($w > 1024) {
+    resize_image($image_file, $image_file, $image_width);
+}
 
 $image_imagesize = getimagesize($image_file);
 $image_filesize = filesize($image_file);
@@ -61,13 +62,13 @@ $image_doc = array(
     "thumb_height" => $thumb_imagesize[1],
     "thumb_filetype" => $thumb_imagesize[2],
     "thumb_filesize" => $thumb_filesize,
-    "thumbnail" => new MongoBinData(file_get_contents($thumb_file)),
+    "thumb_data" => new MongoBinData(file_get_contents($thumb_file)),
     "image_width" => $image_imagesize[0],
     "image_height" => $image_imagesize[1],
     "image_filetype" => $image_imagesize[2],
     "image_filesize" => $image_filesize,
     "image_md5" => $image_md5,
-    "image" => new MongoBinData(file_get_contents($image_file)),
+    "image_data" => new MongoBinData(file_get_contents($image_file)),
     );
 $photos_collection->save($image_doc);
 

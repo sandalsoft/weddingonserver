@@ -9,14 +9,14 @@ $photos_collection = $m->weddingonsand->Photos;
 if ($photo_type == "thumbnail") {
     header( 'Content-Type: image/jpeg' );
     $photo = $photos_collection->findOne(array('_id' => new MongoId($photo_id)));
-    echo $photo["thumbnail"]->bin;
+    echo $photo["thumb_data"]->bin;
 
 }
 
 elseif ($photo_type == "image") {
     header( 'Content-Type: image/jpeg' );
     $photo = $photos_collection->findOne(array('_id' => new MongoId($photo_id)));
-    echo $photo["image"]->bin;
+    echo $photo["image_data"]->bin;
 }
 else {
     header('Content-type: application/json');
