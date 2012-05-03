@@ -1,5 +1,6 @@
 <?php
 include_once 'Date.php';
+include_once 'minimagick.php';
 
 $upload_file = $_FILES["photoData"]["tmp_name"];
 
@@ -25,21 +26,59 @@ $photos_collection = $m->weddingonsand->Photos;
 $personCollection = $m->weddingonsand->Persons;
 $uploaders_name = get_uploaders_name($uuid, $personCollection);
 
+$exif = exif_read_data($image_file);
+$orientate = fix_image_orientation($exif);
+
+$imagick = new Imagick(); 
+$imagick->readImage($image_file); 
+$imagick->rotateImage(new ImagickPixel(), $orientate[0]);
+if ($orientate[1])
+    $imagick->flipimage ();
+
+$imagick->writeImage($image_file);
+$imagick->clear(); 
+$imagick->destroy(); 
+
 // Resize and Create thumbnail
-$thumb_width = 75;
-resize_image($image_file, $thumb_file, $thumb_width);
-$thumb_imagesize = getimagesize($thumb_file);
-$thumb_filesize = filesize($thumb_file);
+$landscape_thumb_width = 175;
+$portrait_thumb_width = 75;
+$thumb_width = 0;
+$tmp_img = new Imagick($image_file);
+$img_geo = $tmp_img->getimagegeometry();
+if ($img_geo['width'] > $img_geo['height']) {
+    //landscape
+    $aspect = "landscape";
+    $err = "landscape photo: " . $img_geo['width'] . "x" . $img_geo['height'];
+    error_log($err);
+    $thumb_width = $landscape_thumb_width = 75;
+    resize_image($image_file, $thumb_file, $thumb_width);
+    $thumb_imagesize = getimagesize($thumb_file);
+    $thumb_filesize = filesize($thumb_file);
+}
+else {
+    // portrait
+    $aspect = "portrait";
+    $err = "portrait photo: " . $img_geo['width'] . "x" . $img_geo['height'];
+    error_log($err);
+    $thumb_width = $portrait_thumb_width;
+    resize_image($image_file, $thumb_file, $thumb_width);
+    $thumb_imagesize = getimagesize($thumb_file);
+    $thumb_filesize = filesize($thumb_file);
+}
+    
+
 
 
 // Resize and save image
-$image_width = 1024;
-$image = new Imagick($image_file); 
-$d = $image->getImageGeometry(); 
-$w = $d['width'];
-if ($w > 1024) {
-    resize_image($image_file, $image_file, $image_width);
-}
+//$image_width = 1024;
+//$image = new Imagick($image_file); 
+//$d = $image->getImageGeometry(); 
+//$w = $d['width'];
+//if ($w > 1024) {
+//    resize_image($image_file, $image_file, $image_width);
+//}
+
+
 
 $image_imagesize = getimagesize($image_file);
 $image_filesize = filesize($image_file);
@@ -53,6 +92,7 @@ $image_md5 = md5_file($image_file);
 
 # Embedding image into documents
 $image_doc = array(
+    "aspect" =>  $aspect,
     "upload_name" => $uploaders_name, 
     "upload_uuid" => $uuid,
     "description" => $description,
@@ -72,6 +112,63 @@ $image_doc = array(
     );
 $photos_collection->save($image_doc);
 
+
+function fix_image_orientation($exif) {
+    $o = $exif['Orientation'];
+    
+    $rotate = 0;
+    $flip = false;
+    
+    switch($o) {
+    case 1:
+    $rotate = 0;
+    $flip = false;
+    break;
+
+    case 2:
+    $rotate = 0;
+    $flip = true;
+    break;
+
+    case 3:
+    $rotate = 180;
+    $flip = false;
+    break;
+
+    case 4:
+    $rotate = 180;
+    $flip = true;
+    break;
+
+    case 5:
+    $rotate = 90;
+    $flip = true;
+    break;
+
+    case 6:
+    $rotate = 90;
+    $flip = false;
+    break;
+
+    case 7:
+    $rotate = 270;
+    $flip = true;
+    break;
+
+    case 8:
+    $rotate = 270;
+    $flip = false;
+    break; 
+
+    default:
+        $rotate = 0;
+        $flip = false;
+    }
+
+return $orientate = Array($rotate, $flip);
+
+    
+}
 
 function get_uploaders_name($uuid, $collection) {
     
@@ -122,3 +219,5 @@ function resize_image($src,$dest,$desired_width)
 
 
 ?>
+
+

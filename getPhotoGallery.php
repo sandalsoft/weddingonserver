@@ -1,8 +1,11 @@
 <?php
 
 $m = new Mongo("mongodb://mongouser:ilikebigtits@10.183.5.47:29317/weddingonsand");
-$photo_id = $_GET['photo_id'];
-$photo_type = $_GET['photo_type'];
+
+if ($_GET['photo_id'])
+    $photo_id = $_GET['photo_id'];
+if ($_GET['photo_type'])
+    $photo_type = $_GET['photo_type'];
 
 $photos_collection = $m->weddingonsand->Photos;
 
@@ -26,7 +29,6 @@ else {
     $response['photos'] = NULL;
     foreach ($photos_cursor as $photo) {
         $response['photos'][] = $photo;
-
     }
     
     print_r(json_encode($response));
