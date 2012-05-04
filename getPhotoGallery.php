@@ -9,14 +9,14 @@ if ($_GET['photo_type'])
 
 $photos_collection = $m->weddingonsand->Photos;
 
-if ($photo_type == "thumbnail") {
+if ($photo_type && $photo_type == "thumbnail") {
     header( 'Content-Type: image/jpeg' );
     $photo = $photos_collection->findOne(array('_id' => new MongoId($photo_id)));
     echo $photo["thumb_data"]->bin;
 
 }
 
-elseif ($photo_type == "image") {
+elseif ($photo_type && $photo_type == "image") {
     header( 'Content-Type: image/jpeg' );
     $photo = $photos_collection->findOne(array('_id' => new MongoId($photo_id)));
     echo $photo["image_data"]->bin;
