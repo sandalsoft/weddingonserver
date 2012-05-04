@@ -56,7 +56,8 @@ $image_filesize = filesize($image_file);
 
 $now = new Date('en');
 $now->setGMTOffset(-6);
-$upload_time = $now->shortDateHuman() . " " . $now->shortTimeHuman();
+//$upload_time = $now->shortDateHuman() . " " . $now->shortTimeHuman();
+$upload_time = $today = date("F j, Y, g:ia"); 
 $upload_timestamp = time();
 $image_md5 = md5_file($image_file); 
 
