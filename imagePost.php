@@ -9,12 +9,12 @@ $description = $_POST["description"];
 
 $image_filename = basename($upload_file);
 $images_dir = "/var/www/weddingonserver/images/";
-$image_file = $images_dir . $image_filename;
+$image_file = $upload_file; //$images_dir . $image_filename;
 
 //$www_images_dir = "/images/";
 //$www_image_file = $www_images_dir . $image_filename;
 
-move_uploaded_file($upload_file, $image_file);
+//move_uploaded_file($upload_file, $image_file);
 
 //$thumb_filename = $image_filename . ".thumb";
 $thumb_file = $image_file . ".thumb";
@@ -26,26 +26,34 @@ $photos_collection = $m->weddingonsand->Photos;
 $personCollection = $m->weddingonsand->Persons;
 $uploaders_name = get_uploaders_name($uuid, $personCollection);
 
+
+
 $exif = exif_read_data($image_file);
+
 $orientate = fix_image_orientation($exif);
+$imagick = new Imagick(); 
+$imagick->readImage($image_file);
 
+$imagick->rotateImage(new ImagickPixel(), $orientate[0]);
+if ($orientate[1])
+    $imagick->flipimage ();
 
-//if (filesize($image_file) > 11) {
-    $imagick = new Imagick(); 
-    $imagick->readImage($image_file);
+$imagick->writeImage($image_file);
+$imagick->clear(); 
+$imagick->destroy(); 
 
-    $imagick->rotateImage(new ImagickPixel(), $orientate[0]);
-    if ($orientate[1])
-        $imagick->flipimage ();
-
-    $imagick->writeImage($image_file);
-    $imagick->clear(); 
-    $imagick->destroy(); 
-//}
 
 // Resize and Create thumbnail
-$thumb_width = 100;
-resize_image($image_file, $thumb_file, $thumb_width);
+$thumb_width = 104;
+$thumb = new Imagick();
+$thumb->readimage($image_file);
+
+$thumb->cropThumbnailImage($thumb_width, $thumb_width);
+$thumb->writeimage($thumb_file);
+
+$thumb->clear();
+$thumb->destroy();
+
 $thumb_imagesize = getimagesize($thumb_file);
 $thumb_filesize = filesize($thumb_file);
 

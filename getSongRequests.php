@@ -21,9 +21,9 @@ $cursor = $collection->find();
 $response['song_requests'] = NULL;
 $response['status']['status'] = "ok";
 
-foreach ($cursor as $request) {
+foreach ($cursor as $person) {
 
-    $response['song_requests'][] = $request;
+    $response['song_requests'][] = $person;
 
 }
 
