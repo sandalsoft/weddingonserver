@@ -6,7 +6,7 @@ header('Content-type: application/json');
 
  $uuid = $_POST["uuid"];
  $trackId = $_POST['trackId'];
-// error_log($uuid);
+ error_log($uuid);
  if (!AuthUUID::validate($uuid)){
     header('HTTP/1.0 401 Unauthorized');
     $response['status']['status'] = "error";
