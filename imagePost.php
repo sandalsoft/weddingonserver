@@ -161,7 +161,9 @@ function get_uploaders_name($uuid, $collection) {
     $criteria = array('uuid' => $uuid);
     $fields = array('first_name', 'last_name');
     $doc = $collection->findOne($criteria, $fields);
-    return $doc['first_name'] . " " . $doc['last_name'];
+    if ($doc['first_name'])
+        return $doc['first_name'] . " " . $doc['last_name'];
+    return "";
 }
 function RelativeTime($timestamp){
     $difference = time() - $timestamp;
