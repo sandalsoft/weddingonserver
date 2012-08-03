@@ -13,6 +13,8 @@ class Db {
         
         //mongolab
 //        $m = new Mongo("mongodb://mongouser:ilikebigtits@ds029317.mongolab.com:29317/weddingonsand");
+        
+        // demo mongolab user: weddingdemodba  pass: pleasemakememoney
         return $m;
     }
 }

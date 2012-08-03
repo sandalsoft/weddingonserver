@@ -5,7 +5,8 @@ require("Postmark.php");
 define('POSTMARKAPP_API_KEY', '7789230f-b288-415a-8443-20ea99c089ac');
 
 
-$m = Db::getDb();
+//$m = Db::getDb();
+ $m = new Mongo("mongodb://mongouser:ilikebigtits@ds029317.mongolab.com:29317/weddingonsand");
 $rsvps = $m->weddingonsand->Rsvps;
 $salt = "tits";
 
@@ -22,6 +23,7 @@ $rsvp = array(  "attending" => $_POST['attending'],
             );
 $rsvps->insert($rsvp);
 
+  
 $name = $_POST['first_name'] . $_POST['last_name'];
 $html_response = file_get_contents("rvsp_response.html");
 

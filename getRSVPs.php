@@ -7,11 +7,11 @@ $uuid = $_REQUEST["uuid"];
 $doc = AuthUUID::validate($uuid);
 
 
-//if (!$doc) {
-//    header('Content-type: application/fuckoff');
-//    header('HTTP/1.0 401 Unauthorized');
-//    die;
-//}
+if (!$doc) {
+    header('Content-type: application/fuckoff');
+    header('HTTP/1.0 401 Unauthorized');
+    die;
+}
 
 
 $m = Db::getDb();

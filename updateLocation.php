@@ -3,7 +3,7 @@
 include_once "AuthUUID.php";
 	
     $m = new Mongo();
-    $collection = $m->weddingonsand->Persons;
+    $collection = $m->weddingonsand->Locations;
         
     $uuid = $_REQUEST["uuid"];
     $doc = AuthUUID::validate($uuid);
@@ -13,9 +13,12 @@ include_once "AuthUUID.php";
     else {
             $lat = $_REQUEST["lat"];
             $lon = $_REQUEST["lon"];
-            $location = array("lat" => $lat, "lon" => $lon);
-            $doc['last_location'] = $location;
-            $collection->save($doc);
+            $location_doc = array(
+                "lat" => $lat,
+                "lon" => $lon,
+                "uuid" =>  $uuid
+                );
+            $collection->save($location_doc);
             var_dump($doc);
            
     }
