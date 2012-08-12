@@ -17,7 +17,8 @@ header('Content-type: application/json');
  }
  
  
-  $m = Db::getDb();
+  // $m = Db::getDb();
+  $m = new Mongo("mongodb://mongouser:ilikebigtits@ds029317.mongolab.com:29317/weddingonsand");
   $collection = $m->weddingonsand->SongRequests;
    
   $repeat_criteria = array(

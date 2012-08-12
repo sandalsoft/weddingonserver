@@ -10,7 +10,7 @@ $image_lat = $_POST["imageLat"];
 $image_lon = $_POST["imageLon"];
 $image_alt = $_POST["imageAlt"];
 
-error_log($_POST);
+//error_log($_POST);
 $image_filename = basename($upload_file);
 $images_dir = "/var/www/weddingonserver/images/";
 $image_file = $upload_file; //$images_dir . $image_filename;

@@ -30,7 +30,8 @@ else {
     foreach ($photos_cursor as $photo) {
         $response['photos'][] = $photo;
     }
-    
+//    $response = mb_check_encoding($response, 'UTF-8') ? $response : utf8_encode($response);
     print_r(json_encode($response));
 }
 ?>
+
