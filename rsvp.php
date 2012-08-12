@@ -21,9 +21,8 @@ $rsvp = array(  "attending" => $_POST['attending'],
                 "note" => $_POST['note'],
                 "iphone_app_auth_code" => substr(md5($_POST['email'] . $salt), 0, 8),
             );
-$rsvps->insert($rsvp);
 
-  
+
 $name = $_POST['first_name'] . $_POST['last_name'];
 $html_response = file_get_contents("rvsp_response.html");
 
@@ -56,7 +55,9 @@ $rsvp_notify_message = "
 		<h1>
 			New RSVP</h1>
 		<ul>
-			<li>
+                        <li>
+				attending: " . $_POST['attending'] . "</li>
+			<li>  
 				" . $_POST['first_name'] . " " . $_POST['last_name'] . "</li>
 			<li>
 				" . $_POST['email']  . "</li>
