@@ -20,6 +20,8 @@ $rsvp = array(  "attending" => $_POST['attending'],
                 "guest_last_name" => $_POST['guest_last_name'],
                 "note" => $_POST['note'],
                 "iphone_app_auth_code" => substr(md5($_POST['email'] . $salt), 0, 8),
+                "facebook_id" => "",
+                "role" => "",
             );
 
 $rsvps->insert($rsvp);
