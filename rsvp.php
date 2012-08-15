@@ -22,6 +22,7 @@ $rsvp = array(  "attending" => $_POST['attending'],
                 "iphone_app_auth_code" => substr(md5($_POST['email'] . $salt), 0, 8),
             );
 
+$rsvps->insert($rsvp);
 
 $name = $_POST['first_name'] . $_POST['last_name'];
 $html_response = file_get_contents("rvsp_response.html");
@@ -49,7 +50,7 @@ $rsvp_notify_message = "
 
 <html>
 	<head>
-		<title>HTML Online Editor Sample</title>
+		<title>RSVP</title>
 	</head>
 	<body>
 		<h1>
